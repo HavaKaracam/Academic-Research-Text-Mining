@@ -1,12 +1,18 @@
-from idlelib.iomenu import encoding
-
-from docx.shared import Pt
 from docx import Document
-from pip._internal.utils import encoding
 
-newDoc = Document("osreport.docx")
-newDoc.save("newww.docx")
-newTxt = open("asd.txt", "w")
-for para in newDoc.paragraphs:
-    print(para.text)
-    newTxt.write(para.text)
+
+class ReadDOCX:
+
+    @staticmethod
+    def converToTxt(docName):
+        newDoc = Document(docName)
+        asd = docName
+        for x in range(len(docName)):
+            if x == ".":
+                asd = docName[0:x]
+        newTxt = open(str(asd) + ".txt", "w")
+        for para in newDoc.paragraphs:
+            newTxt.write(para.text)
+        newTxt.close()
+        newTxt = open(str(asd) + ".txt", "r")
+        return newTxt

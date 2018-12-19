@@ -1,22 +1,39 @@
 import collections
 import pandas as pd
+from nltk import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 
 import nltk
-nltk.download('stopwords')
-nltk.download('punkt')
 
-# Read input file, note the encoding is specified here
-# It may be different in your text file
+from ReadDOCX import ReadDOCX
+from ReadTXT import ReadTXT
+
+ps = PorterStemmer()
+
+#nltk.download('stopwords')
+#nltk.download('punkt')
+
+docName = "falkaya.docx"
+doc1 = ReadDOCX()
+doc1File = doc1.converToTxt(docName)
+
+txtName = "mcganiz.txt"
+txt1 = ReadTXT()
+txt1File = txt1.readTxt(txtName)
+
+
 file = open('asd.txt')
-a = file.read()
-a = a.lower()
+txtStr = txt1File.read()
+txtStr = txtStr.lower()
+docStr = doc1File.read()
+docStr = docStr.lower()
+
 # Stopwords
 stopwords = set(stopwords.words('english'))
 academicStopwords = set(line.strip() for line in open('acStopWords.txt'))
 academicStopwords = academicStopwords.union(set(['mr','mrs','one','two','said']))
-words = word_tokenize(a)
+words = word_tokenize(txtStr) + word_tokenize(docStr)
 
 wordsFiltered = []
 
@@ -25,6 +42,9 @@ for w in words:
 
         if w.isdigit():
             words.remove(w)
+
+        if '-' not in w:
+            w = ps.stem(w)
 
         wordsFiltered.append(w)
 
@@ -37,6 +57,7 @@ wordcount = {}
 for word in wordsFiltered:
     if word not in (stopwords and academicStopwords):
 
+        ps.stem(word)
         word = word.replace(".", "")
         word = word.replace(",", "")
         word = word.replace(":", "")
