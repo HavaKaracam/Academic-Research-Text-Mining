@@ -5,10 +5,20 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 import csv
 
+
+
+
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import pandas as pd
+from matplotlib import ticker
+from wordcloud import WordCloud, STOPWORDS
+
 import nltk
 
 from ReadDOCX import ReadDOCX
 from ReadTXT import ReadTXT
+from TfCloud import TfCloud
 from TfList import TfList
 
 ps = PorterStemmer()
@@ -24,8 +34,12 @@ txtName = "mcganiz.txt"
 txt1 = ReadTXT()
 txt1File = txt1.readTxt(txtName)
 
+
 tfList = TfList()
-csvWriter = tfList.createFile("tf_list.csv")
+csvFile = tfList.createFile("tf_list.csv")
+csvWriter = csv.writer(csvFile, delimiter=',', quotechar='|')
+
+tfCloud = TfCloud()
 
 
 file = open('asd.txt')
@@ -59,7 +73,6 @@ wordcount = {}
 for word in wordsFiltered:
     if word not in (stopwords and academicStopwords):
 
-        ps.stem(word)
         word = word.replace(".", "")
         word = word.replace(",", "")
         word = word.replace(":", "")
@@ -77,8 +90,15 @@ for word in wordsFiltered:
 # Print most common word
 print("\nOK. The 50 most common words are as follows\n")
 word_counter = collections.Counter(wordcount)
+
 for word, count in word_counter.most_common(50):
     csvWriter.writerow([word, count])
     print(word, ": ", count)
 
+
 file.close()
+csvFile.close()
+
+tfCloud.createWordCloud("tf_list.csv")
+file.close()
+csvFile.close()
