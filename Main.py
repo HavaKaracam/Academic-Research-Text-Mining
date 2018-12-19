@@ -3,11 +3,13 @@ import pandas as pd
 from nltk import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
+import csv
 
 import nltk
 
 from ReadDOCX import ReadDOCX
 from ReadTXT import ReadTXT
+from TfList import TfList
 
 ps = PorterStemmer()
 
@@ -21,6 +23,9 @@ doc1File = doc1.converToTxt(docName)
 txtName = "mcganiz.txt"
 txt1 = ReadTXT()
 txt1File = txt1.readTxt(txtName)
+
+tfList = TfList()
+csvWriter = tfList.createFile("tf_list.csv")
 
 
 file = open('asd.txt')
@@ -70,10 +75,10 @@ for word in wordsFiltered:
             wordcount[word] += 1
 
 # Print most common word
-n_print = int(input("How many most common words to print: "))
-print("\nOK. The {} most common words are as follows\n".format(n_print))
+print("\nOK. The 50 most common words are as follows\n")
 word_counter = collections.Counter(wordcount)
-for word, count in word_counter.most_common(n_print):
+for word, count in word_counter.most_common(50):
+    csvWriter.writerow([word, count])
     print(word, ": ", count)
 
 file.close()
