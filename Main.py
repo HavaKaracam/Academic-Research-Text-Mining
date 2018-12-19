@@ -22,6 +22,10 @@ wordsFiltered = []
 
 for w in words:
     if w not in stopwords and academicStopwords:
+
+        if w.isdigit():
+            words.remove(w)
+
         wordsFiltered.append(w)
 
 print(wordsFiltered)
