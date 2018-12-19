@@ -49,11 +49,8 @@ for w in words:
         wordsFiltered.append(w)
 
 print(wordsFiltered)
-# Instantiate a dictionary, and for every word in the file,
-# Add to the dictionary if it doesn't exist. If it does, increase the count.
 wordcount = {}
 
-# To eliminate duplicates, remember to split by punctuation, and use case demiliters.
 for word in wordsFiltered:
     if word not in (stopwords and academicStopwords):
 
@@ -71,13 +68,12 @@ for word in wordsFiltered:
             wordcount[word] = 1
         else:
             wordcount[word] += 1
+
 # Print most common word
 n_print = int(input("How many most common words to print: "))
 print("\nOK. The {} most common words are as follows\n".format(n_print))
 word_counter = collections.Counter(wordcount)
 for word, count in word_counter.most_common(n_print):
     print(word, ": ", count)
-# Close the file
+
 file.close()
-# Create a data frame of the most common words
-# Draw a bar chart
