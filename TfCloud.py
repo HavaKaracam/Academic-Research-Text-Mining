@@ -31,11 +31,12 @@ class TfCloud:
                 text = text + " " + word
 
             # show only 10 words in the wordcloud .
-        wordcloud = WordCloud(width=480, height=480, max_words=10).generate(text)
+        wordcloud = WordCloud(width=480, height=480, max_words=50).generate(text)
 
         # plot the WordCloud image
-        plt.figure()
+        f = plt.figure()
         plt.imshow(wordcloud, interpolation="bilinear")
         plt.axis("off")
         plt.margins(x=0, y=0)
         plt.show()
+        f.savefig(listName + ".pdf", bbox_inches='tight')
